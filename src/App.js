@@ -1,10 +1,10 @@
 import React from "react";
-import ListaCarrosAPIFunc from './componentes/ListaCarrosAPIFunc'
+import ListaCarrosAPI from './componentes/ListaCarrosAPI'
 
 export default function App(){
   return(
     <>
-    <ListaCarrosAPIFunc/>
+    <ListaCarrosAPI/>
     </>
   )
 }
