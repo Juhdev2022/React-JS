@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from "react";
 import axios from 'axios'
 
-export default function ListaCarrosAPIFunc(){
+export default function ListaCarros(){
 
    const [carros,setCarros]=useState([])
 
