@@ -1,0 +1,1127 @@
+Aula 1
+React - conceitos iniciais (post)
+***********************************************
+Criado pelo facebook
+Biblioteca p cruação de interfaces de usuário
+Roda JS no servidor e retorno a pag pronta
+baseado em Js eS6
+código declarativo : é mais simplies, pois invoca métodos para fazer o processamento, se preocupando apenas c os retornos)
+*****
+código Imperativo:qdo o desevolvedor escreve o processamento do código passo a passo  
+
+*******
+trabalho de fluxo unidirecional do componente maior p o menor (pai e filho)
+tudo é js em react e se utiliza o jsx p emular HTML e css
+
+
+
+Só atualiza componentes que sofrem alterações
+componente é representado por funções pode ser separado (main, article...)e pode fazer uso de  outros componentesmenores(componentes combinados)
+ <main>
+ <article/>
+...
+ </main>
+ 
+
+criar o primeiro App
+
+
+
+
+
+
+aula 11
+
+cancelar link
+botão liga/desliga c img
+
+import React,{useState} from 'react'
+import ledVerde from './componentes/imgs/verde.png'
+import ledVerm from './componentes/imgs/verm.png'
+
+export default function App(){
+const [ligado,setLigado]= useState(false)
+
+const cancelar =(obj)=>{
+  return obj.preventDefault() 
+}
+
+  return(
+<>
+    <img style={{width:'50px'}} src={ligado?ledVerde:ledVerm}></img>
+    <button onClick={()=>setLigado(!ligado)}>{ligado?'Desligar':'Ligar'}</button>
+    <a
+    href='https://github.com/Juhdev2022?tab=repositories'
+    target='_blank'
+    onClick={(e)=> cancelar(e)}
+    >
+
+      GitHub
+    </a>
+</>
+  )
+}
+_____________________________________________________________
+AULA 12
+renderização condicional com login e logoff
+mudança de cores com clique e automático
+**********
+
+
+import React, {useState} from 'react'
+
+
+
+export default function App(){
+
+  const [log,setlog]=useState(false)
+
+  const msglogin=()=>{
+    return 'Usuário Logado!'
+  }
+  const msglogoff=()=>{
+    return 'Favor Logar!'
+  }
+  const cumprimento=()=>{
+  const hora=new Date().getHours()
+  if(hora >=0 && hora <13){
+    return <p>Bom dia!</p>
+  }else if(hora>=13 && hora <18){
+    return <p>Boa tarde!</p>
+  }else{
+    return <p>Boa noite!</p>
+  }
+}
+
+  return(
+    <>
+    {cumprimento()}
+    <p>{log?msglogin():msglogoff()}</p>
+    <button onClick={()=>setlog(!log)}>{log?'Logoff':'Login'}</button>
+    </>
+  )
+}
+
+*********
+import React, {useState} from 'react'
+
+export default function App(){
+
+  const[cor,setCor]=useState(1)
+  const vermelho={color:'#f00'}
+  const verde={color:'#0f0'}
+  const azul={color:'#00f'}
+  
+  const retCor=(c)=>{
+    if(c==1){
+      return vermelho //0
+    }else if(c==2){
+      return verde //1
+    }else{
+      return azul //2
+    }
+  }
+  const mudaCor=()=>{
+    setCor(cor+1)
+    if(cor>2){
+      setCor(1)
+    }
+  }
+ 
+  //setInterval(mudaCor, 1000)
+  return(
+    <>
+  <h1 style={retCor(cor)}>JuleãoDEV</h1>
+  <button onClick={()=>mudaCor()}>Muda Cor</button>
+  
+  </>
+  );
+}
+____________________________________________________________________
+aula 13
+manipular listas com MAP
+indice
+*********
+import React from 'react'
+
+export default function App(){
+
+  const carros = ['HRV','GOLF','FOCUS','CRUZE','ARGO']
+  const listaCarros=carros.map(
+    (c,i)=>
+      <li key={i}> {i} - {c}</li>
+    
+  )
+  
+  return(
+    <>
+   <ul>{listaCarros}</ul>
+    </>
+  )
+
+}
+                 ************COM JSON (objetos)************
+
+ import React from 'react'
+
+export default function App(){
+
+  const carros = [
+      {categoria: "Esporte", preco: "110000.00", modelo: "Golf GTI"},
+      {categoria: "Esporte", preco: "120000.00", modelo: "Camaro"},
+      {categoria: "SUV", preco: "850000.00", modelo: "HRV"},
+      {categoria: "SUV", preco: "830000.00", modelo: "T-Cross"},
+      {categoria: "Utilitario", preco: "120000.00", modelo: "Hillux"},
+      {categoria: "Utilitario", preco: "90000.00", modelo: "Ranger"}
+  ];
+
+  const listaCarros=carros.map(
+    (c,i)=>
+      <li key={i}> {i} - {c.categoria} {c.modelo} - R${c.preco}</li>
+    
+  )
+  
+  return(
+    <>
+   <ul>{listaCarros}</ul>
+    </>
+  )
+
+}
+________________________________________________________________________
+ aula 14
+ manipulando formulários com useState
+ **************************
+
+ import React,{useState} from 'react'
+
+export default function App(){
+
+  const[nome,setNome]=useState('')
+  const[carro,setCarro]=useState('')
+
+
+  /*const hanleChangeNome=(e)=>{
+    setNome(e.target.value)
+  }*/
+
+  return(
+    <>
+    <label>Digite seu Nome</label>
+    <input type="text" name="fnome"value={nome}onChange={(e)=>setNome(e.target.value)} />
+    <p>Nome digitado:{nome}</p>
+    <label>Selecione um carro</label>
+
+    <select value={carro} onChange={(e)=>setCarro(e.target.value)}>
+    <option value="HRV">HRV</option>
+    <option value="Golf">Golf</option>
+    <option value="Cruze">Cruze</option>
+    <option value="Argo">Argo</option>
+    </select>
+    <p>Carro Selecionado{carro}</p>
+    </>
+
+  )
+}
+ /*utilizar use state pq está trabalhando co componente funcional
+ EVENTO - onChange:onChange. O evento onChange é utilizado para que seja realizada determinada ação após alguma mudança. No exemplo abaixo iremos fazer essa mudança acontecer ao clicarmos fora do input text.
+OnChange: muda o valor do elemento
+OnMouseOver: define ação quando o usuário ...
+OnMouseOut: define ação quando o usuário re...
+OnBlur: remove o foco do elemento
+
+target permite que você detecte quando uma função ou construtor foi chamado utilizando o operador new.
+
+- 
+
+ */
+_____________________________________________________________________________
+ AULA 15
+ MANIPULAR TODOS OS ELEMENTOS DO FORMULÁRIO COM 1 state
+***********************************************************8
+
+ import React,{useState} from 'react'
+
+export default function App(){
+
+  const[form,setForm]=useState({"nome":"","curso":"","ano":""})
+  const handlFormChange=(e)=>{
+    
+    if(e.target.getAttribute('name')=='fnome'){
+        setForm({"nome":e.target.value,"curso":form.curso,"ano":form.ano})
+ } else if(e.target.getAttribute('name')=='fcurso'){
+        setForm({"nome":form.nome,"curso":e.target.value,"ano":form.ano})
+ } else if (e.target.getAttribute('name')=='fano'){
+       setForm({"nome":form.nome,"curso":form.curso,"ano":e.target.value})
+ }
+}
+
+  return(
+    <>
+
+    <label>Nome</label>
+    <input type="text" name="fnome"value={form.nome}onChange={(e)=>handlFormChange(e)}/><br/>
+    <label>Curso</label>
+    <input type="text" name="fcurso"value={form.curso}onChange={(e)=>handlFormChange(e)} /><br/>
+    <label>Ano</label>
+    <input type="text" name="fano"value={form.ano}onChange={(e)=>handlFormChange(e)} /><br/>
+    
+    
+
+    <p>Nome digitado:{form.nome}</p>
+    <p>Curso digitado:{form.curso}</p>
+    <p>Ano digitado:{form.ano}</p>
+
+    </>
+ );
+}
+ _____________________________________________________________________________
+ Aula 16 - MANIPULANDO FORMULÁIO ELEVANDO state E COM UUSO DE PROPS
+ *****************
+ import React,{useState} from 'react'
+import Nota from "./componentes/Nota"
+import Resultado from "./componentes/Resultado"
+
+export default function App(){
+
+  const[nota1,setNota1]=useState(0)
+  const[nota2,setNota2]=useState(0)
+  const[nota3,setNota3]=useState(0)
+  const[nota4,setNota4]=useState(0)
+
+  return(
+    <>
+    <Nota num={1} nota={nota1} setNota={setNota1}/>
+    <Nota num={2} nota={nota2} setNota={setNota2}/>
+    <Nota num={3} nota={nota3} setNota={setNota3}/>
+    <Nota num={4} nota={nota4} setNota={setNota4}/>
+    <Resultado somaNotas={parseFloat(nota1)+parseFloat(nota2)+parseFloat(nota3)+parseFloat(nota4)}/>
+    </>
+ );
+}
+
+PROPS NOTA **************************************************
+
+import React from 'react'
+
+export default function Nota(props){
+    return(
+        <div>
+            <legend>Informe a nota:{props.num}</legend>
+            <input type="text" value={props.nota} onChange={(e)=>props.setNota(e.target.value)}></input>
+        </div>
+    )
+}
+
+
+PROPS RESULTADO****************************************************
+import React from 'react'
+
+export default function Resultado(props){
+    return(
+        <div>
+            <p>Soma das notas:{props.somaNotas}</p>
+            <p>{props.somaNotas >=60? "Aprovado":"Reprovado"}</p>
+        </div>
+    )
+}
+
+_____________________________________________________________________________
+*********************************DESAFIO - aula 17 *********************************
+MANIPULAR JSON E ELEM DE FORM COM 1 STATE
+JS
+
+import React,{useState} from 'react'
+import Nota from "./componentes/Nota"
+import Resultado from "./componentes/Resultado"
+
+export default function App(){
+
+const [notas,setNotas]= useState({"nota1":"0", "nota2":"0", "nota3":"0", "nota4":"0"})
+const handlSetNotas=(e)=>{
+  if(e.target.getAttribute('name')=='nota1'){
+      setNotas({"nota1":e.target.value,"nota2":notas.nota2,"nota3":notas.nota3, "nota4": notas.nota4})
+
+  }else if (e.target.getAttribute('name')=='nota2'){
+    setNotas({"nota1":notas.nota1,"nota2":e.target.value,"nota3":notas.nota3, "nota4": notas.nota4})
+
+  }else if (e.target.getAttribute('name')=='nota3'){
+    setNotas({"nota1":notas.nota1,"nota2":notas.nota2,"nota3":e.target.value, "nota4": notas.nota4})
+
+  }else if (e.target.getAttribute('name')=='nota4'){
+    setNotas({"nota1":notas.nota1,"nota2":notas.nota2,"nota3":notas.nota3, "nota4": e.target.value})
+}
+}
+  
+
+  return(
+    <>
+    <Nota num={1} nome={'nota1'} nota={notas.nota1} setNota={handlSetNotas}/>
+    <Nota num={2} nome={'nota2'} nota={notas.nota2} setNota={handlSetNotas}/>
+    <Nota num={3} nome={'nota3'} nota={notas.nota3} setNota={handlSetNotas}/>
+    <Nota num={4} nome={'nota4'} nota={notas.nota4} setNota={handlSetNotas}/>
+    <Resultado somaNotas={parseFloat(notas.nota1)+parseFloat(notas.nota2)+parseFloat(notas.nota3)+parseFloat(notas.nota4)}/>
+
+    
+
+    </>
+ );
+}
+**************************************************************************
+NOTA.js
+import React from 'react'
+
+export default function Nota(props){
+    return(
+        <div>
+            <legend>Informe a nota:{props.num}</legend>
+            <input type="text" name={props.nome} value={props.notas} onChange={(e)=>props.setNota(e)}></input>
+        </div>
+    )
+}
+*****************************************************
+resultado.js
+
+import React from 'react'
+
+export default function Resultado(props){
+    return(
+        <div>
+            <p>Soma das notas:{props.somaNotas}</p>
+            <p>{props.somaNotas >=60? "Aprovado":"Reprovado"}</p>
+        </div>
+    )
+}
+___________________________________________________________________
+Aula 18 -  
+CONTENÇÃO _obter ELEMENTOS filhos dos componentes
+Props.childrem
+**************************
+no APP:
+
+import React from 'react'
+import Caixa from './componentes/Caixa'
+import Canal from './componentes/Canal'
+
+export default function App(){
+return (
+    <>
+    <Caixa site="https://github.com/Juhdev2022">
+      <Canal/>
+      <h1>CFB Cursos</h1>
+      <p>Curso React</p>
+    </Caixa>
+    </>
+);
+
+}
+*********caixa.js************************************
+import React from 'react'
+
+
+export default function Caixa(props){
+return (
+    <>
+  
+  <p>{props.site}</p>
+  <h1>Julliana </h1>
+  {props.children}
+    </>
+);
+
+}
+********************Canal.js *******************************************
+import React from 'react'
+
+
+export default function Canal(){
+return (
+    <>
+  <h1>JuleãoDEV</h1>
+    </>
+);
+
+}
+________________________________________________________________________
+AULA 19 hook USEEFFECT
+import React, {useEffect,useState} from 'react'
+
+export default function App(){
+const [contagem,setContagem]=useState(0)
+  useEffect(
+    ()=>{console.log("Página carregada")
+    document.title='Contagem:'+contagem
+    }
+  )
+  
+
+  return(
+    <>
+   <p>Contaagem:{contagem}</p>
+   <button onClick={()=>setContagem(contagem+1)}>Contar</button>
+    
+    </>
+//atualiza primeiro o state e depois a aba pq primeiro o hook chama a atualiza a pg 
+
+  )
+}
+_______________________________________________________________________________
+AULA 20
+LOCAL STORAGE
+ARMAZENAR LOCALMENTE NO BROUSER 
+
+CRIAR (A CHAVE E O VALOR = SETITEM), 
+RECUPERAR(CHAVE E O VALOR = GETITEM), 
+APAGAR(REMOVER E O VALOR = REMOVEITEM)
+***************************************************************************
+/se deixar sem aspas ele procura a variável(o espaço) que tenha esta chave, c aspas ele identifica q já é o nome da chave
+//STATE se usa p interagir a variávell do programa c o componente do formulário
+  localStorage.setItem("nome ", "Julliana") //define o nome o o valor da chave
+  localStorage.getItem("nome")//obter o valor da chave
+  localStorage.removeItem("nome") //remove a chave
+
+*********************
+  A funcionalidade do localStorage consiste em salvar, adicionar, recuperar ou excluir dados localmente em um navegador Web, esta informação é guardada na forma de pares de chave-valor e os valores podem ser apenas strings.
+*********************
+
+CRIAR ou add ( CHAVE E O VALOR = SETITEM)
+RECUPERAR(CHAVE E O VALOR = GETITEM)
+APAGAR(REMOVER E O VALOR = REMOVEITEM)
+
+
+
+
+
+import React, {useState} from 'react'
+
+export default function App(){
+
+  const [nome,setNome]=useState() //state chamado nome vazio
+
+
+  const armazenar=(chave,valor)=>{   //cria uma função
+    localStorage.setItem(chave,valor) //define o que a função vai fazer (armazenar)
+  }
+
+  const consultar=(chave)=>{  //define o que a função vai fazer (armazenar)
+    alert(localStorage.getItem(chave))
+  }
+  const apagar=(chave)=>{ //define o que a função vai fazer (armazenar)
+    localStorage.removeItem(chave)
+  }
+
+  return (
+    <>
+      <label>Digite um nome</label><br/>
+      <input type="text" value={nome} onChange={(e)=>setNome(e.target.value)}/><br/>
+      <button onClick={()=>armazenar("ls_nome",nome)}>Gravar Nome</button>
+      <button onClick={()=>consultar("ls_nome",nome)}>Ver Nome</button>
+      <button onClick={()=>apagar("ls_nome",nome)}>Remover Nome</button>
+
+    </>
+  )
+}
+//o input faz a associação do valor do text c o state nome
+//onChange associa o setnome e passa o elemento (manipulação de componentes de form)
+//botoes q chama funções q pega o nome q foi digitato e gravar no localStorage
+//nome da chave = ls_nome e o valoe = nome
+
+_______________________________________________________________________________________
+AULLA 21 COMPONENTES DE CLASSE_________________________________________________________
+
+Classe:
+
+import React from 'react'
+
+class Classe extends React.Component{
+  render(){
+    return(
+       
+          <h1>Primeiro componente de classe</h1>
+       
+    
+    )
+  }
+}
+export default Classe
+//classe e o nome da classe e herança (qdo um objeto herda a classe de outro)herdada de outro lugar(extends)
+
+*******************************************************************
+App:
+_____________________________________________________________
+import React from'react'
+import Classe from "./componentes/Classe"
+
+export default function App(){
+  return(
+    <>
+
+    <h1>Componentes de Classe</h1>
+    <Classe/>
+    </>
+   
+  );
+}
+
+capturar uma propriedade dentro do comp. de classe
+**********************************************************************
+
+Classe:
+
+import React from 'react'
+
+class Classe extends React.Component{
+    constructor(props){
+    super(props)    
+
+    }
+  render(){
+    return(
+        <div>
+            <h1>Primeiro componente de classe</h1>
+            <p>Canal: {this.props.canal}</p>
+            <p>Curso: {this.props.curso}</p>
+
+        </div>
+        
+    
+    )
+  }
+}
+export default Classe
+//classe e o nome da classe e herança (qdo um objeto herda a classe de outro)herdada de outro lugar(extends)
+/*metodo construtor - primeiro método q será executado na classe qdo eu instanciar(criar um novo obj) um obj desta classe 
+em js o metodo tem um nome de constructor, nas linguagens orientadas a obj tradicionais, leva o mesmo nome da classe
+tem q enviar o props p classe pai , então usa o super (método q chama o construtor da classe pai n neste caso component - do pai)]
+Usa o "this" pq o props está sendo referenciado dentro do constructor */
+*************************************************************************8
+App:
+import React from'react'
+import Classe from "./componentes/Classe"
+
+export default function App(){
+  return(
+    <>
+
+    <h1>Componentes de Classe</h1>
+    <Classe canal= "JuleãoDEV" curso="React"/>
+    
+    </>
+   
+  );
+}
+________________________________________________________________________
+States e variáveis em componente de classe:
+
+import React from 'react'
+
+class Classe extends React.Component{
+    constructor(props){
+    super(props) 
+    this.modelo='HRV'   
+    this.state={ //criar state
+        ligado:false,//valor boleano
+        velAtual:0, //valor inteir0
+
+    }
+
+    }
+    ligarDesligar(){
+        this.setState({ligado:!this.state.ligado}) // ! = not
+    }
+
+  render(){
+    return(
+        <div>
+            <h1>Meu Carro</h1>
+            <p>Modelo: {this.modelo}</p>
+            <p>Ligado: {this.state.ligado ?'Sim' : 'Não'}</p>
+            <p>Ve.Atual: {this.state.velAtual}</p>
+            <button onClick={()=>this.ligarDesligar()}>
+            {this.state.ligado ? 'Desligar Carro' : 'Ligar Carro'}</button>
+        </div>
+        
+    
+    )
+  }
+}
+export default Classe
+
+
+
+/*
+(cria variável)this.modelo='Golf', 
+(chama variável)<p>Modelo:{this.modelo}</p>
+(forma de tetorno para valor boleano)<p>Ligado/Desligado{this.state.ligado ?'Sim' : 'Não'}</p>
+seState - muda valor do estado 
+manipular um state:
+this.setState({ligado:true}) chama p renderizar a função:
+
+<button onClick={()=>this.ligar()}>Ligar Carro</button>
+_____________________________________________________________________________
+aula 22 manipulando state em componentes de classe
+
+
+import React from 'react'
+
+class Classe extends React.Component{
+    constructor(props){
+    super(props) 
+    this.modelo='HRV'   
+    this.state={ //criar state
+        ligado:false,//valor boleano
+        velAtual:0, //valor inteir0
+
+    }
+
+    }
+    ligarDesligar(){
+        this.setState({ligado:!this.state.ligado})
+    }
+
+  render(){
+    return(
+        <div>
+            <h1>Meu Carro</h1>
+            <p>Modelo: {this.modelo}</p>
+            <p>Ligado: {this.state.ligado ?'Sim' : 'Não'}</p>
+            <p>Ve.Atual: {this.state.velAtual}</p>
+            <button onClick={()=>this.ligarDesligar()}>
+            {this.state.ligado ? 'Desligar Carro' : 'Ligar Carro'}</button>
+        </div>
+        
+    
+    )
+  }
+}
+export default Classe
+
+
+
+/*
+(cria variável)this.modelo='Golf', 
+(chama variável)<p>Modelo:{this.modelo}</p>
+(forma de retorno para valor boleano)<p>Ligado/Desligado{this.state.ligado ?'Sim' : 'Não'}</p>
+seState - muda valor do estado 
+manipular um state:
+this.setState({ligado:true}) renderizar
+<button onClick={()=>this.ligar()}>Ligar Carro</button>
+
+______________________________________________________________________________-
+AULA 23 
+pra não dar problema na atualização do setstate existem formas mais seguras de chamar:
+
+  ligarDesligar(){
+            this.setState(
+                function (state){   //forma mais segura 
+                    return{
+                        ligado:!state.ligado
+                    }
+                }
+            )      
+     }
+     ou com arrow function
+
+       // this.setState(
+           // (state)=>({              //forma mais segura 
+           //     ligado:!state.ligado
+           // })
+       // )
+
+Agora por props:
+
+APP:
+
+<h1>Componentes de Classe</h1>
+    <Carro fator={10}/>
+
+COMPONENTE CARRO
+    acelerar(){
+        this.setState(
+            (state,props)=>(
+                {velAtual:state.velAtual + props.fator}
+            )
+        )
+    }
+_____________________________________________________________________________
+AULA 24
+bind - ESTABELECER LIGAÇÃO , CRIA UMA FUNÇÃO NOVA E QDO FOR CHAMADA , VAI TER O THIS REDEFINIDO P APONTAR OP OUTRO ELEMENTO
+****************************************************************
+this.ld=this.ligarDesligar.bind(this) 
+}
+
+
+    ligarDesligar(){
+    this.setState({ligado:!this.state.ligado})
+
+
+     <button onClick={this.ld}>
+            {this.state.ligado ? 'Desligar Carro' : 'Ligar Carro'}</button>
+
+_______________________________________________________________________-------
+Aula 25
+Ciclo de vida de um componente - funções q definem e que são chamadas neste Ciclo
+o q acontece desde qdo crio até qdo removo este componente
+serve p chamar um código em momentos específicos
+
+********************************************************************
+__VER IMG 'CICLO DE VIDA'
+
+carro:
+
+componentDidMount(){ //qdo foi criado , chama após o render
+    console.log('O carro foi criado')
+ }
+ componentDidUpdate(){
+    console.log('O carro foi atualizado')
+ } //chama após o render mass toda vez q atualiza o componente
+
+ componentWillUnmount(){
+    console.log('O carro foi removido')
+ }
+
+
+
+
+
+APP:
+
+import React,{useState} from'react'
+import Carro from "./componentes/Carro"
+
+export default function App(){
+  const [carro,setCarro]=useState(true)
+  const mostrarOcultarCarro=()=>{
+    setCarro(!carro)
+  }
+
+  return(
+    <>
+
+    <h1>Componentes de Classe</h1>
+    {carro ? <Carro fator={10}/> : ''}
+    <button onClick={()=>mostrarOcultarCarro()}>Ocultar</button>
+    </>
+  );
+}
+
+_____________________________________________________________
+AULa 27 
+
+estetic = qq componente q usar essas variáveis acesse os mesmos elementos na memória
+
+
+APP: 
+
+import React,{useState} from "react"
+import Globais from './componentes/Globais'
+import Info from './componentes/Info'
+
+export default function App(){
+
+return(
+  <>
+  <p>{'Canal: ' + Globais.canal}</p>
+  <p>{'Curso: ' + Globais.curso}</p>
+  <p>{'Ano: ' + Globais.ano}</p>
+  <hr/>
+  <Info/>
+  <hr/>
+  </>
+)
+
+}
+
+conteúdo em info / globais
+
+
+APP:
+
+import React,{useState} from "react"
+import Globais from './componentes/Globais'
+import Info from './componentes/Info'
+
+export default function App(){
+  const[resumo,setResumo]=useState(Globais.resumo)
+
+  const gravarResumo=()=>{
+    Globais.resumo=resumo
+  }
+  const verResumo=()=>{
+    alert(Globais.resumo)
+  }
+
+return(
+  <>
+  <Info/>
+  <hr/>
+  <p>{'Canal: ' + Globais.canal}</p>
+  <p>{'Curso: ' + Globais.curso}</p>
+  <p>{'Ano: ' + Globais.ano}</p>
+  <hr/>
+  <input type="text" size='100' value={resumo} onChange={(e)=>setResumo(e.target.value)}></input><br/>
+  <button onClick = {()=>gravarResumo()}>Gravar Resumo</button>
+  <button onClick = {()=>verResumo()}>Ver Resumo</button>
+
+  </>
+)
+
+}
+
+APP:
+import React,{useState} from "react"
+import Globais from './componentes/Globais'
+import Info from './componentes/Info'
+
+export default function App(){
+  const[resumo,setResumo]=useState(Globais.resumo)
+
+  const gravarResumo=()=>{
+    Globais.resumo=resumo
+  }
+  const verResumo=()=>{
+    alert(Globais.resumo)
+  }
+
+return(
+  <>
+  <Info/>
+  <hr/>
+  <p>{'Canal: ' + Globais.canal}</p>
+  <p>{'Curso: ' + Globais.curso}</p>
+  <p>{'Ano: ' + Globais.ano}</p>
+  <hr/>
+  <input type="text" size='100' value={resumo} onChange={(e)=>setResumo(e.target.value)}></input><br/>
+  <button onClick = {()=>gravarResumo()}>Gravar Resumo</button>
+  <button onClick = {()=>verResumo()}>Ver Resumo</button>
+
+  </>
+)
+
+}
+
+__________________________________________________________________________________AULA 28 - NAVEGAÇÃO ENTRE TELAS (USESTATE, USEEFFECT)
+
+App:
+
+import React,{useState, useEffect} from'react'
+import Pagina1 from './componentes/Pagina1'
+import Pagina2 from './componentes/Pagina2'
+
+
+export default function App(){
+  const [pagina,setPagina]=useState(0)
+
+useEffect(
+  ()=>{
+    const url=window.location.href
+    const res=url.split('?')
+    setPagina(res[1])
+  }
+)
+
+
+
+  const LinksPaginas=(p)=>{
+    if(p==1){
+      window.open('http://localhost:3000?1', '_self') 
+      //? passa paramentro 1 neste caso
+    }else  if(p==2){
+      window.open('http://localhost:3000?2', '_self')
+      //self p carregar na mesmaa janela
+
+  }
+  }
+
+  const retornarPagina=()=>{}
+  if(pagina==1){
+    return<Pagina1/>
+  }else if (pagina==2){
+    return<Pagina2/>
+    
+  }else{
+    return <div>
+           <button onClick={()=>LinksPaginas(1)}>Página 1</button>
+           <button onClick={()=>LinksPaginas(2)}>Página 2</button>
+           </div>
+  }
+
+  return(
+  
+    <>
+    {retornarPagina()}
+    </>
+  )
+  }
+  ________________________________________________________________________________________
+  aula 29 - TABELA COM FILTRO
+
+  import { isLabelWithInternallyDisabledControl } from '@testing-library/user-event/dist/utils'
+import React,{useState} from 'react'
+
+const carros=[
+{categoria:"Esporte",preco: "11000", modelo:"Golf GTI"},
+{categoria:"Esporte",preco: "120000", modelo:"Camaro"},
+{categoria:"SUV",preco: "85000", modelo:"HRV"},
+{categoria:"SUV",preco: "83000", modelo:"T-Cross"},
+{categoria:"Utilitário",preco: "125000", modelo:"Hillux"},
+{categoria:"Utilitário",preco: "90000", modelo:"Ranger"},
+]
+
+
+const linhas=(cat)=>{
+  const li=[]
+  carros.forEach(
+    (carro)=>{
+      if(carro.categoria.toUpperCase()==cat.toUpperCase() || cat.toUpperCase()==''){
+        li.push(
+          <tr>
+            <td>{carro.categoria}</td>
+            <td>{carro.preco}</td>
+            <td>{carro.modelo}</td>
+          </tr>
+        )
+      }
+    }
+
+
+  )
+  return li
+}
+
+const TabelaCarros=(cat)=>{
+  return(
+    <table border='1' style={{borderCollapse:'collapse'}}>
+      <thead>
+        <tr>
+          <th>Categotia</th><th>Preço</th><th>Modelo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {linhas(cat)}
+      </tbody>
+    </table>
+  )
+
+}
+const pesquisaCategoria=(cat, scat)=>{
+  return(
+    <div>
+      <label>Digite uma categoria</label>
+      <input type="text" value={cat} onChange={(e)=>scat(e.target.value)}></input>
+    </div>
+  )
+}
+
+export default function App(){
+  const[categoria,setCategoria]=useState('')
+return(
+  <>
+    {pesquisaCategoria(categoria,setCategoria)}
+    {TabelaCarros(categoria)}
+  </>
+)
+}
+
+
+/*const tabelaIMC=()=>{
+  return(
+    <table border='1' style={{borderCollapse:'collapse'}}>
+      <thead>
+      <tr>
+        <th>
+          Classificação
+        </th>
+        <th>
+          IMC
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Abaixo do Peso</td>
+          <td>Abaixo de 18,5</td>
+        </tr>
+        <tr>
+          <td>Peso Normal</td>y
+          <td>Entre 18,5 e 24,9</td>
+        </tr>
+        <tr>
+          <td>Sobrepeso</td>
+          <td>Entre 25 e 29,9</td>
+        </tr>
+        <tr>
+          <td>Obesidade Grau I</td>
+          <td>Entre 30 e 34,9</td>
+        </tr>
+        <tr>
+          <td>Obesidade Grau II</td>
+          <td>Entre 35 e 39,9</td>
+        </tr>
+        <tr>
+          <td>Obesidade Grau III</td>
+          <td>Maior que 40</td>
+        </tr>
+      </tbody>
+    </table>
+  )
+} 
+
+const fpeso=(p,sp)=>{
+  return(
+    <div>
+      <label>
+        Peso
+        <input type="text" value={p} onChange={(e)=>{sp(e.target.value)}}/>
+      </label>
+    </div>
+  )
+}
+const faltura=(a,sa)=>{
+  return(
+    <div>
+    <label>
+      Altura
+      <input type="text" value={a} onChange={(e)=>{sa(e.target.value)}}/>
+    </label>
+  </div>
+  )
+}
+
+const fcalcular=(p,a,sr)=>{
+    const calc=()=>{
+     sr(p/(a*a))
+    }
+  return(
+    <div>
+      <button onClick={calc}>Calcular</button>
+    </div>
+  )  
+}
+
+const fresultado=(resultado)=>{
+return(
+  <div>
+    <p>Resultado: {resultado.toFixed(2)}</p>
+  </div>
+)
+}
+export default function App(){
+
+  const [peso,setPeso]=useState(0)
+  const [altura,setAltura]=useState(0)
+  const [resultado,setResultado]=useState(0)
+
+  return(
+    <>
+    {fpeso(peso,setPeso)}
+    {faltura(altura,setAltura)}
+    {fcalcular(peso,altura,setResultado)}
+    {fresultado(resultado)}
+    {tabelaIMC()}
+      </>
+  )
+}
+*/
+
+

@@ -3,6 +3,7 @@ import React,{useState} from 'react'
 export default function Tabela (props){
 
     return(
+        
       <table border='1' style={{borderCollapse:'collapse'}}>
       <thead>
       <tr>
